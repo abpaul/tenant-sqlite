@@ -3,6 +3,12 @@
 Scoped, bounded SQLite database-per-tenant management for Rust applications using
 SeaORM and SQLx. One process owns a registry over trusted local database files.
 
+Inspired by [Basecamp's ActiveRecord::Tenanted](https://github.com/basecamp/activerecord-tenanted)
+Rails integration. This crate implements the database-per-tenant pool and lifecycle
+core in Rust, using explicit scoped handles. Tenant resolution, authentication,
+HTTP integration, job context and cache isolation remain application-owned; it
+is not a complete port of the Rails framework integrations.
+
 - Validated tenant IDs and explicit provisioning; ordinary access never creates a missing database.
 - Coordinated initialization, application migrations and limits covering every retained pool.
 - Scoped handles keep active operations safe during eviction, deletion and shutdown.
