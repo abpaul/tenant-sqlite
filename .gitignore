@@ -1,0 +1,12 @@
+/target/
+/local/
+/example-data/
+.env
+.env.*
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.log
+.DS_Store

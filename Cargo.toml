@@ -1,0 +1,33 @@
+[package]
+name = "tenant-sqlite"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.94"
+description = "Scoped, bounded SQLite tenant databases for SeaORM applications"
+license = "Apache-2.0"
+keywords = ["sqlite", "tenancy", "sea-orm", "database"]
+categories = ["database"]
+repository = "https://github.com/abpaul/tenant-sqlite"
+readme = false
+publish = false
+include = ["src/**", "examples/**", "tests/**", "benches/**", "Cargo.toml", "LICENSE", "NOTICE"]
+
+[dependencies]
+sea-orm = { version = "2.0.4", default-features = false, features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
+tokio = { version = "1.45", features = ["rt", "sync", "fs", "time", "macros"] }
+thiserror = "2"
+async-trait = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[[bench]]
+name = "tenant_pools"
+harness = false
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+correctness = "deny"
