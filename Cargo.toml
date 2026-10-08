@@ -8,9 +8,9 @@ license = "Apache-2.0"
 keywords = ["sqlite", "tenancy", "sea-orm", "database"]
 categories = ["database"]
 repository = "https://github.com/abpaul/tenant-sqlite"
-readme = false
+readme = "README.md"
 publish = false
-include = ["src/**", "examples/**", "tests/**", "benches/**", "Cargo.toml", "LICENSE", "NOTICE"]
+include = ["src/**", "examples/**", "tests/**", "benches/**", "Cargo.toml", "README.md", "LICENSE", "NOTICE"]
 
 [dependencies]
 sea-orm = { version = "2.0.4", default-features = false, features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
