@@ -521,3 +521,27 @@ fn tenant_id_standard_conversions_preserve_validation_and_identity() {
         tenant_sqlite::Synchronous::Normal
     );
 }
+
+#[tokio::test]
+async fn pooled_reader_sees_committed_rows_during_a_writer_transaction() {
+    let (_dir, registry) = fixture(1);
+    let db = registry.provision(&id("private-cache")).await.unwrap();
+    db.execute_unprepared("INSERT INTO items VALUES ('committed')")
+        .await
+        .unwrap();
+    let pool = db.get_sqlite_connection_pool();
+    let first = pool.acquire().await.unwrap();
+    let second = pool.acquire().await.unwrap();
+    drop((first, second));
+    let writer = db.begin().await.unwrap();
+    writer
+        .execute_unprepared("INSERT INTO items VALUES ('pending')")
+        .await
+        .unwrap();
+    let read = tokio::time::timeout(std::time::Duration::from_millis(500), values(&db)).await;
+    writer.commit().await.unwrap();
+    assert_eq!(read.unwrap(), ["committed"]);
+    assert_eq!(values(&db).await, ["committed", "pending"]);
+    drop(db);
+    registry.shutdown().await.unwrap();
+}

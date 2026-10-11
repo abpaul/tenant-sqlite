@@ -571,6 +571,7 @@ impl Registry {
         options.map_sqlx_sqlite_opts(move |opts| {
             opts.filename(&path)
                 .in_memory(false)
+                .shared_cache(false)
                 .create_if_missing(false)
                 .foreign_keys(true)
                 .journal_mode(SqliteJournalMode::Wal)
